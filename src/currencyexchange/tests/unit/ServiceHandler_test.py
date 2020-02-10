@@ -11,7 +11,7 @@ from src.services.serviceHandler import convertCurrency
 
 def test_convertCurrency():
     countryCurrencyCode_ = "USD"
-    expected_ = 13.313884584
+    expected_ = 13.313852615999998
 
     actual_ = convertCurrency(10, countryCurrencyCode_, "CAD")
     assert actual_ == expected_
