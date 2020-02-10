@@ -1,4 +1,3 @@
-
 # Bee Travels - Currency Exchange Microservice
 
 This is a python3 Currency Exchange Microservice, that was developed by using a Test Driven Development (TDD) approach.
@@ -10,7 +9,6 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 1. black
 1. flake8
 1. pre-commit
-
 
 ## Install the pre-requisites
 
@@ -333,12 +331,12 @@ According to this [Stackoverflow post](https://stackoverflow.com/questions/23337
 
 1. using `@pytest.mark.xfail` with a check function is probably better for something like documenting unfixed bugs (where the test describes what "should" happen) or bugs in dependencies.
 
-
 ## Starting to code, the TDD way of course!
+
 ### The steps taken:
 
 > 1.) Read and Grok the `Request: new feature`, read a csv data file and lookup by country name, in order to return
-the associated currency name and the standard 3 letter currency code
+> the associated currency name and the standard 3 letter currency code
 
 > 2.) Add a corresponding test first! (RED - 404 it should fail! )
 
@@ -347,25 +345,26 @@ the associated currency name and the standard 3 letter currency code
 > 4.) Refactor to actually read and filter the data from the csv ( RED-GREEN - iterate until code looks good!)
 
 Great, feature one added and all tests pass!
-Confident to continue?  You bet ya!
+Confident to continue? You bet ya!
 
 > 1.) `Request: new feature`, access external external api to calculate the changing of money to another currency with 3 parameters:
-currencyAmount e.g. 10, currencyFrom e.g. United States Dollars (USD) toCurrency e.g. South African Rands (ZAR).  Use the built in
- Python3 http client library, i.e. `urllib`
+> currencyAmount e.g. 10, currencyFrom e.g. United States Dollars (USD) toCurrency e.g. South African Rands (ZAR). Use the built in
+> Python3 http client library, i.e. `urllib`
 
 ... similar steps mirror above 2-4
 
 Great we can now access the external API ( Caveat Emptor, tests do not use pytest fixtures/mock data yet, need to get `monkeypatch` in conftest.py
 figured out!!
 
-> 1.) `Request: new feature`, make this python app a microserive itself, i.e. add a swagger-like REST API by using 
-the awesome Python `Flask` and `Flask-RestPLUS` libraries.
+> 1.) `Request: new feature`, make this python app a microserive itself, i.e. add a swagger-like REST API by using
+> the awesome Python `Flask` and `Flask-RestPLUS` libraries.
 
-Fabulous!  You should by now be able to access the REST API by navigating to:
+TIP: to get `flask-restplus` to [work, downgrade](https://github.com/noirbizarre/flask-restplus/issues/777) Werkzeug by pinning version to 0.16.0
+
+Fabulous! You should by now be able to access the REST API by navigating to:
 [http://127.0.0.1:7878](http://127.0.0.1:7878)
 
-Next steps:  add other REST endpoints -> that the NodeJS version has.
-
+Next steps: add other REST endpoints -> that the NodeJS version has.
 
 ## Foot notes
 
@@ -380,6 +379,8 @@ Next steps:  add other REST endpoints -> that the NodeJS version has.
 # Resources
 
 [Python Testing with pytest: Simple, Rapid, Effective, and Scalable.](https://pragprog.com/book/bopytest/python-testing-with-pytest) Okken, Brian. Pragmatic Bookshelf.
+
+[pypi docs on flask-restplus 0.13.0](https://pypi.org/project/flask-restplus/)
 
 # License
 
