@@ -331,6 +331,10 @@ According to this [Stackoverflow post](https://stackoverflow.com/questions/23337
 
 1. using `@pytest.mark.xfail` with a check function is probably better for something like documenting unfixed bugs (where the test describes what "should" happen) or bugs in dependencies.
 
+## Starting to code, the TDD way of course!
+
+Add a test first!
+
 ## Foot notes
 
 [5] Project management tool include:
