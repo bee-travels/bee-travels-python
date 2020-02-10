@@ -14,20 +14,20 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 
 ## Install the pre-requisites
 
-1. Python version 3
+1. Python version 3.7.x or later
 1. Pipenv - Python virtual environment
 
 ## Installation steps
 
-### 1. Python3
+### 1. Python version 3.7.x
 
-Make sure you have Python installed and it's availible from your command line. You can check if it's installed and determine it's version by running:
+Make sure you have Python3 installed and it's availible from your command line. You can check if it's installed and determine it's version by running:
 
 ```sh
 python --version
 ```
 
-You shoud get some output like `3.6.2` If you don't have this version of Python, please install the latest `3.x` version.
+You shoud get some output like `3.7.5` If you don't have this version of Python, please install the latest `3.7.x` version.
 
 To install python 3 on a Mac
 
