@@ -335,6 +335,16 @@ According to this [Stackoverflow post](https://stackoverflow.com/questions/23337
 
 Add a test first!
 
+Watch the video: TDD to drive adding a feature, read csv and lookup by country name, to return
+currency name and 3 letter currency code
+[see the tests here]()
+
+OK, let us try work with the external api using Python3 `urllib`
+
+Again let's write a test first!
+
+Now let's add a REST API with the awesome Python `Flask` library
+
 ## Foot notes
 
 [5] Project management tool include:
