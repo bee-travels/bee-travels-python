@@ -1,5 +1,6 @@
 import os
 import csv
+from src.errors.UserDefinedErrors import NotFoundError
 
 
 def readData():
@@ -20,13 +21,9 @@ def readData():
     return rows_
 
 
-# Even though we hard coded this, that's OK, as we can first confirm tests wire up to the src package
-# as expected!! Lets continue and Refactor to make this work!
-
-# now lets refactor this to work!
 def getCurrencyNameAndCode(countryName):
-    return {
-        "country": "South Africa",
-        "currencyName": "South African rand",
-        "currencyCode": "ZAR",
-    }
+    data = readData()
+    for row in data:
+        if row["country"].upper() == countryName.upper():
+            return row
+    raise NotFoundError("country {} does not exist".format(countryName))
