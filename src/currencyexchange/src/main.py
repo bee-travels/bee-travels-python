@@ -1,3 +1,4 @@
+
 from flask import Flask
 from flask_restplus import Api, Resource
 from services.serviceHandler import convertCurrency
@@ -32,3 +33,4 @@ class Currency(Resource):
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=True, port=7878)
+

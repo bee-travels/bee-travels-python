@@ -1,3 +1,4 @@
+
 # Bee Travels - Currency Exchange Microservice
 
 This is a python3 Currency Exchange Microservice, that was developed by using a Test Driven Development (TDD) approach.
@@ -9,6 +10,7 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 1. black
 1. flake8
 1. pre-commit
+
 
 ## Install the pre-requisites
 
@@ -331,19 +333,39 @@ According to this [Stackoverflow post](https://stackoverflow.com/questions/23337
 
 1. using `@pytest.mark.xfail` with a check function is probably better for something like documenting unfixed bugs (where the test describes what "should" happen) or bugs in dependencies.
 
+
 ## Starting to code, the TDD way of course!
+### The steps taken:
 
-Add a test first!
+> 1.) Read and Grok the `Request: new feature`, read a csv data file and lookup by country name, in order to return
+the associated currency name and the standard 3 letter currency code
 
-Watch the video: TDD to drive adding a feature, read csv and lookup by country name, to return
-currency name and 3 letter currency code
-[see the tests here]()
+> 2.) Add a corresponding test first! (RED - 404 it should fail! )
 
-OK, let us try work with the external api using Python3 `urllib`
+> 3.) Wire up logic to function returning expected data (GREEN - test passes despite dummy data!)
 
-Again let's write a test first!
+> 4.) Refactor to actually read and filter the data from the csv ( RED-GREEN - iterate until code looks good!)
 
-Now let's add a REST API with the awesome Python `Flask` library
+Great, feature one added and all tests pass!
+Confident to continue?  You bet ya!
+
+> 1.) `Request: new feature`, access external external api to calculate the changing of money to another currency with 3 parameters:
+currencyAmount e.g. 10, currencyFrom e.g. United States Dollars (USD) toCurrency e.g. South African Rands (ZAR).  Use the built in
+ Python3 http client library, i.e. `urllib`
+
+... similar steps mirror above 2-4
+
+Great we can now access the external API ( Caveat Emptor, tests do not use pytest fixtures/mock data yet, need to get `monkeypatch` in conftest.py
+figured out!!
+
+> 1.) `Request: new feature`, make this python app a microserive itself, i.e. add a swagger-like REST API by using 
+the awesome Python `Flask` and `Flask-RestPLUS` libraries.
+
+Fabulous!  You should by now be able to access the REST API by navigating to:
+[http://127.0.0.1:7878](http://127.0.0.1:7878)
+
+Next steps:  add other REST endpoints -> that the NodeJS version has.
+
 
 ## Foot notes
 
