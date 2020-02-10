@@ -1,6 +1,14 @@
-# Modern Python3 Boilerplate with tooling
+# Bee Travels - Currency Exchange Microservice
 
-This is a template  to start a python project using a Test Driven Development (TDD) approach
+This is a python3 Currency Exchange Microservice, that was developed by using a Test Driven Development (TDD) approach.
+
+## Included components
+
+1. Pipenv
+1. pytest
+1. black
+1. flake8
+1. pre-commit
 
 ## Install the pre-requisites
 
