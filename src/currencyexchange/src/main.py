@@ -6,7 +6,6 @@ from services.countryCurrencyCodeHandler import (
     getCurrencyNameAndCode,
 )
 
-
 app = Flask(__name__)
 api = Api(
     app,
