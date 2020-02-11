@@ -17,6 +17,7 @@ api = Api(
 
 currencyNS = api.namespace("currency", description="currency exchange operations")
 
+
 currencyObject = api.model(
     "CurrencyObject",
     {
@@ -26,6 +27,15 @@ currencyObject = api.model(
         "country": fields.String(required=False, description="country name"),
     },
 )
+
+
+@currencyNS.route("/")
+class CurrencyList(Resource):
+    @currencyNS.doc("list currency exchange rates")
+    def get(self):
+        return getCurrencyExchangeRates()
+
+
 
 #  /currency/{currencyFromAmount}/{currencyFromCode}/{currencyToCode}
 #  /currency/10/EUR/USD

@@ -16,6 +16,23 @@ class NotFoundException(Exception):
     pass
 
 
+def __callExtRestEndPoint(url):
+    request = Request(url)
+    try:
+        response = urlopen(request)
+    except HTTPError as httpex:
+        raise NotFoundException(httpex.reason)
+
+    data = json.loads(response.read())
+    return data
+
+
+def getCurrencyExchangeRates(timeIndicator="latest"):
+    currencyUrl = "{}{}".format(BASE_URL_ENDPOINT, timeIndicator)
+    data = __callExtRestEndPoint(currencyUrl)
+    return data
+
+
 def getCurrencyExchangeRate(
     countryCurrencyCode, baseCode="EUR", timeIndicator="latest"
 ):
@@ -24,14 +41,8 @@ def getCurrencyExchangeRate(
     baseCode = baseCode.upper()
 
     currencyUrl = "{}{}?base={}".format(BASE_URL_ENDPOINT, timeIndicator, baseCode)
+    data = __callExtRestEndPoint(currencyUrl)
 
-    request = Request(currencyUrl)
-    try:
-        response = urlopen(request)
-    except HTTPError as httpex:
-        raise NotFoundException(httpex.reason)
-
-    data = json.loads(response.read())
     return data["rates"][countryCurrencyCode]
 
 
