@@ -1,7 +1,6 @@
-
 from flask import Flask
 from flask_restplus import Api, Resource
-from services.serviceHandler import convertCurrency
+from services.serviceHandler import convertCurrency, getCurrencyExchangeRates
 
 app = Flask(__name__)
 api = Api(
@@ -12,6 +11,14 @@ api = Api(
 )
 
 currencyNS = api.namespace("currency", description="currency exchange operations")
+
+
+@currencyNS.route("/")
+class CurrencyList(Resource):
+    @currencyNS.doc("list currency exchange rates")
+    def get(self):
+        return getCurrencyExchangeRates()
+
 
 #  /currency/{currencyFromAmount}/{currencyFromCode}/{currencyToCode}
 #  /currency/10/EUR/USD
@@ -33,4 +40,3 @@ class Currency(Resource):
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=True, port=7878)
-
