@@ -1,5 +1,5 @@
 import pytest
-from src.services.serviceHandler import convertCurrency
+from src.services.serviceHandler import convertCurrency, getCurrencyExchangeRates
 
 
 @pytest.mark.xfail(raises=AssertionError)

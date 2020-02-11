@@ -1,6 +1,7 @@
 import os
 import csv
-from src.errors.UserDefinedErrors import NotFoundError
+
+# from errors.UserDefinedErrors import NotFoundError
 
 
 def readData():
@@ -26,7 +27,7 @@ def getCurrencyNameAndCode(countryName):
     for row in data:
         if row["country"].upper() == countryName.upper():
             return row
-    raise NotFoundError("country {} does not exist".format(countryName))
+    raise Exception("country {} does not exist".format(countryName))
 
 
 def getCountryAndCurrencyCode(currencyCode):

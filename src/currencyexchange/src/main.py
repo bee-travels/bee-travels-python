@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restplus import Api, Resource, fields
-from services.serviceHandler import convertCurrency
+from services.serviceHandler import convertCurrency, getCurrencyExchangeRates
 from services.countryCurrencyCodeHandler import (
     getCountryAndCurrencyCode,
     getCurrencyNameAndCode,
@@ -34,7 +34,6 @@ class CurrencyList(Resource):
     @currencyNS.doc("list currency exchange rates")
     def get(self):
         return getCurrencyExchangeRates()
-
 
 
 #  /currency/{currencyFromAmount}/{currencyFromCode}/{currencyToCode}

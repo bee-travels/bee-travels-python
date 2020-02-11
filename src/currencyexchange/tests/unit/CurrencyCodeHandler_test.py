@@ -1,5 +1,6 @@
 from src.services import countryCurrencyCodeHandler
-from src.errors.UserDefinedErrors import NotFoundError
+
+# from src.errors.UserDefinedErrors import NotFoundError
 import pytest
 
 
@@ -79,21 +80,14 @@ def test_CSV_to_Dict():
 
 
 def test_GetCurrencyNameAndCodeForNoCountry():
-    with pytest.raises(NotFoundError):
+    with pytest.raises(Exception):
         countryCurrencyCodeHandler.getCurrencyNameAndCode("Westeros")
 
 
 # there are 2 other ways to handle exceptions in pytest
 
-# first test the error message is as expected
-def test_GetCurrencyNameAndCodeForNoCountryMessage():
-    try:
-        countryCurrencyCodeHandler.getCurrencyNameAndCode("Westeros")
-    except NotFoundError as nfex:
-        assert nfex.message == "country Westeros does not exist"
-
 
 # can mark a test with a python decorator that it will fail but that's OK it does as it should
-@pytest.mark.xfail(raises=NotFoundError)
+@pytest.mark.xfail(raises=Exception)
 def test_GetCurrencyNameAndCodeForNoCountryWithXfailMark():
     countryCurrencyCodeHandler.getCurrencyNameAndCode("Westeros")
