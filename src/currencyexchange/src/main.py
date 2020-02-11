@@ -15,11 +15,14 @@ api = Api(
     description="This is a microservice that handles currency exchange rate data for Bee Travels",
 )
 
-currencyNS = api.namespace("currency", description="currency exchange operations")
+currencyNS = api.namespace(
+    "Currency",
+    description="Operations associated with currency exchange rate conversions",
+)
 
 
-currencyObject = api.model(
-    "CurrencyObject",
+currencyNameOrCurrencyCode = api.model(
+    "currencyNameOrCurrencyCode",
     {
         "currencyCode": fields.String(
             required=False, description="3 letter currency code"
@@ -31,7 +34,8 @@ currencyObject = api.model(
 
 @currencyNS.route("/")
 class CurrencyList(Resource):
-    @currencyNS.doc("list currency exchange rates")
+    """Shows a list of currency ex rates"""
+
     def get(self):
         return getCurrencyExchangeRates()
 
@@ -58,8 +62,8 @@ class Currency(Resource):
 @currencyNS.response(404, "Currency Code not found")
 class Search(Resource):
     @currencyNS.doc("search_currency_meta")
-    @currencyNS.expect(currencyObject)
-    @currencyNS.marshal_with(currencyObject, code=201)
+    @currencyNS.expect(currencyNameOrCurrencyCode)
+    @currencyNS.marshal_with(currencyNameOrCurrencyCode, code=201)
     def post(self):
         if "currencyCode" in api.payload:
             return getCountryAndCurrencyCode(api.payload["currencyCode"])
