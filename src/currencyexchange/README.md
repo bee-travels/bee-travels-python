@@ -10,6 +10,24 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 1. flake8
 1. pre-commit
 
+## Steps to run this code
+
+1. ensure you have the pre-requisites as defined below
+1. clone this repository `git clone https://github.com/bee-travels/bee-travels-python.git`
+1. change to the repo root dir `cd bee-travels-python/`
+1. checkout development branch `git checkout development`
+1. change to the root dir for currencyexchange `cd src/currencyexchange/`
+1. ensure `pipenv` will be local to your dir structure `export PIPENV_VENV_IN_PROJECT=1`
+1. setup `pipenv` run: `pipenv install --three`
+1. check `pipenv` run: `pipenv check`
+1. activate `pipenv` run: `pipenv shell`
+1. install runtime python packages with `pipenv` run: `pipenv install`
+1. install dev python packages with `pipenv` run: `pipenv install --dev`
+1. install `pre-commit` git hook run: `pipenv run setup_dev`
+1. run the unit-tests run: `pytest`
+1. start the flask microservice run: `python src/main.py`
+1. browse to the swagger test harness by navigating to [http://127.0.0.1:7878](http://127.0.0.1:7878)
+
 ## Install the pre-requisites
 
 1. Python version 3.7.x or later
