@@ -1,6 +1,6 @@
-import pytest
 from src.services import countryCurrencyCodeHandler
 from src.errors.UserDefinedErrors import NotFoundError
+import pytest
 
 
 def test_GetCurrencyNameAndCodeForRealCountry():
@@ -10,6 +10,57 @@ def test_GetCurrencyNameAndCodeForRealCountry():
         "currencyCode": "ZAR",
     }
     actual_ = countryCurrencyCodeHandler.getCurrencyNameAndCode("South Africa")
+    assert actual_ == expected_
+
+
+def test_GetSingleForRealCurrencyCode():
+    currencyCode_ = "ZAR"
+    expectedCountries_ = [
+        "South Africa",
+    ]
+
+    expected_ = {
+        "currencyCode": "ZAR",
+        "currencyName": "South African rand",
+        "country": expectedCountries_,
+    }
+    actual_ = countryCurrencyCodeHandler.getCountryAndCurrencyCode(currencyCode_)
+    assert actual_ == expected_
+
+
+def test_GetMultipleCountriesForRealCurrencyCode():
+    currencyCode_ = "USD"
+    expectedCountries_ = [
+        "American Samoa",
+        "Bonaire",
+        "British Indian Ocean Territory",
+        "British Virgin Islands",
+        "Caribbean Netherlands",
+        "Ecuador",
+        "El Salvador",
+        "Guam",
+        "Marshall Islands",
+        "Micronesia",
+        "Northern Mariana Islands",
+        "Palau",
+        "Panama",
+        "Puerto Rico",
+        "Saba",
+        "Sint Eustatius",
+        "Timor-Leste",
+        "Turks and Caicos Islands",
+        "United States of America",
+        "US Virgin Islands",
+        "Wake Island",
+        "Zimbabwe",
+    ]
+
+    expected_ = {
+        "currencyCode": "USD",
+        "currencyName": "United States dollar",
+        "country": expectedCountries_,
+    }
+    actual_ = countryCurrencyCodeHandler.getCountryAndCurrencyCode(currencyCode_)
     assert actual_ == expected_
 
 
