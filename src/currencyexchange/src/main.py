@@ -1,7 +1,11 @@
-
 from flask import Flask
-from flask_restplus import Api, Resource
+from flask_restplus import Api, Resource, fields
 from services.serviceHandler import convertCurrency
+from services.countryCurrencyCodeHandler import (
+    getCountryAndCurrencyCode,
+    getCurrencyNameAndCode,
+)
+
 
 app = Flask(__name__)
 api = Api(
@@ -12,6 +16,26 @@ api = Api(
 )
 
 currencyNS = api.namespace("currency", description="currency exchange operations")
+
+
+currencyObject = api.model(
+    "CurrencyObject",
+    {
+        "currencyCode": fields.String(
+            required=False, description="3 letter currency code"
+        ),
+        "country": fields.String(required=False, description="country name"),
+    },
+)
+
+
+@currencyNS.route("/")
+class CurrencyList(Resource):
+    @currencyNS.doc("list currency exchange rates")
+    def get(self):
+        return getCurrencyExchangeRates()
+
+
 
 #  /currency/{currencyFromAmount}/{currencyFromCode}/{currencyToCode}
 #  /currency/10/EUR/USD
@@ -31,6 +55,20 @@ class Currency(Resource):
         return {"result": result}
 
 
+@currencyNS.route("/search")
+@currencyNS.response(404, "Currency Code not found")
+class Search(Resource):
+    @currencyNS.doc("search_currency_meta")
+    @currencyNS.expect(currencyObject)
+    @currencyNS.marshal_with(currencyObject, code=201)
+    def post(self):
+        if "currencyCode" in api.payload:
+            return getCountryAndCurrencyCode(api.payload["currencyCode"])
+        elif "country" in api.payload:
+            return getCurrencyNameAndCode(api.payload["country"])
+        else:
+            api.abort(400, "Pass in either the currencyCode or country name")
+
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=True, port=7878)
-

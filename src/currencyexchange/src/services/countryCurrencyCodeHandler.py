@@ -27,3 +27,15 @@ def getCurrencyNameAndCode(countryName):
         if row["country"].upper() == countryName.upper():
             return row
     raise NotFoundError("country {} does not exist".format(countryName))
+
+
+def getCountryAndCurrencyCode(currencyCode):
+    data = readData()
+    if len(currencyCode.strip()) != 3:
+        raise Exception("currencyCode should only be 3 characters long")
+    matches = [v for v in data if v["currencyCode"].upper() == currencyCode.upper()]
+    return {
+        "currencyCode": matches[0]["currencyCode"],
+        "currencyName": matches[0]["currencyName"],
+        "country": [m["country"] for m in matches],
+    }
