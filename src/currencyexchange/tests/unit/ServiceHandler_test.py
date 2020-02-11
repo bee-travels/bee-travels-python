@@ -1,8 +1,8 @@
 import pytest
-from src.services.serviceHandler import convertCurrency, getCurrencyExchangeRates
+from src.services.serviceHandler import convertCurrency
 
 
-@pytest.mark.xfail(raises=Exception)
+@pytest.mark.xfail(raises=AssertionError)
 def test_convertCurrency():
     countryCurrencyCode_ = "USD"
     expected_ = 13.313852615999998
