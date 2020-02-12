@@ -34,23 +34,32 @@ At the core of containers there is a lighter weight Linux operating system. Most
 
 Now there is a Enterprise Linux alternative from RedHat called the Universal Base Image (UBI).
 
-UBI is
+UBI is three things:
 
-?? begin conjecture too contraversial ? contains the core Fedora based operating system we have come to love and adopt as the Linux for serious business! RHEL is the `real` UNIX, as many CentOS, Fedora and RedHat system administrators purport to praise. ???
-
-Now you can build containers and use the familiar `yum` package manager and all the packages available for RedHat Linux.
+1. A set of three base images (`ubi`, `ubi-minimal`, `ubi-init`)
+1. A set of language runtime images (`node.js`, `python`, etc.)
+1. A set of associated packages in a `YUM repository` which satisfy common application dependencies
 
 ### Use the RedHat UBI to build a docker image, then run it locally
 
+Regard our [Dockerfile](./Dockerfile) and notice the new `FROM` directive is for the UBI version 8 ( core of RedHat 8)
+
+```yaml
+FROM registry.access.redhat.com/ubi8/ubi
+```
+
+Now let's build this docker image with the `RedHat UB`I.
+
 1. Make sure you are at the root of this application.
 1. Note your docker-hub username
-   <details><summary><strong>How to find your docker hub credentials</strong></summary>
+
+<details><summary><strong>How to find your docker hub credentials</strong></summary>
 
 > To download Docker desktop you must create a Docker hub account.
 
 > To find the username, you can click on at your Docker desktop icon (mac) toolbar
 
-![Docker Desktop Find your logged-in username](./doc/source/images/docker-desktop-get-username.png)
+![Docker Desktop Find your logged-in username](./doc/images/docker-desktop-get-username.png)
 
 </details>
 
