@@ -28,6 +28,76 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 1. start the flask microservice run: `python src/main.py`
 1. browse to the swagger test harness by navigating to [http://127.0.0.1:7878](http://127.0.0.1:7878)
 
+## Introducing the RedHat Universal Base Image (UBI)
+
+At the core of containers there is a lighter weight Linux operating system. Most of us have used Ubuntu or Alpine as the base Operating system.
+
+Now there is a Enterprise Linux alternative from RedHat called the Universal Base Image (UBI).
+
+UBI is
+
+?? begin conjecture too contraversial ? contains the core Fedora based operating system we have come to love and adopt as the Linux for serious business! RHEL is the `real` UNIX, as many CentOS, Fedora and RedHat system administrators purport to praise. ???
+
+Now you can build containers and use the familiar `yum` package manager and all the packages available for RedHat Linux.
+
+### Use the RedHat UBI to build a docker image, then run it locally
+
+1. Make sure you are at the root of this application.
+1. Note your docker-hub username
+   <details><summary><strong>How to find your docker hub credentials</strong></summary>
+
+> To download Docker desktop you must create a Docker hub account.
+
+> To find the username, you can click on at your Docker desktop icon (mac) toolbar
+
+![Docker Desktop Find your logged-in username](./doc/source/images/docker-desktop-get-username.png)
+
+</details>
+
+1. Build the docker image by running:
+
+```bash
+export DOCKERHUB_USERNAME=<your-dockerhub-username>
+docker build -t $DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1 .
+```
+
+<details><summary><strong>Expected output details</strong></summary>
+
+Here is a truncated snippet of the successful output you should see:
+
+```bash
+Sending build context to Docker daemon  69.63MB
+Step 1/10 : FROM registry.access.redhat.com/ubi8/ubi
+ ---> fd73e6738a95
+
+ ...
+
+Collecting flask (from -r requirements.txt (line 13))
+  Downloading https://files.pythonhosted.org/packages/9b/93/628509b8d5dc749656a9641f4caf13540e2cdec85276964ff8f43bbb1d3b/Flask-1.1.1-py2.py3-none-any.whl (94kB)
+
+ ...
+
+Successfully built 3b5631170697
+Successfully tagged <DOCKERHUB_USERNAME>/currencyexchange-py:v0.0.1
+```
+
+</details>
+
+Great! So, now lets run the image locally!
+
+```bash
+docker run -p 7878:7878 $DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1
+```
+
+At your command line run: `docker ps` and you should now confirm that the docker container for the currencyexchange microservice is up and running.
+
+![UBI Docker](./doc/images/UBI-docker-ps.jpeg)
+
+> Explore the microservice from your browser at
+> [http://127.0.0.1:7878](http://127.0.0.1:7878) for documentation about this API's endpoints and a `try-it-out` test harness to actually run the API calls.
+
+![expected browser swagger](./doc/images/expected-browser-swagger.png)
+
 ## Install the pre-requisites
 
 1. Python version 3.7.x or later
