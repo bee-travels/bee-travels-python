@@ -48,7 +48,7 @@ Regard our [Dockerfile](./Dockerfile) and notice the new `FROM` directive is for
 FROM registry.access.redhat.com/ubi8/ubi
 ```
 
-Now let's build this docker image with the `RedHat UB`I.
+Now let's build this docker image with the `RedHat UBI`.
 
 1. Make sure you are at the root of this application.
 1. Note your docker-hub username
@@ -106,6 +106,10 @@ At your command line run: `docker ps` and you should now confirm that the docker
 > [http://127.0.0.1:7878](http://127.0.0.1:7878) for documentation about this API's endpoints and a `try-it-out` test harness to actually run the API calls.
 
 ![expected browser swagger](./doc/images/expected-browser-swagger.png)
+
+# Development Notes
+
+These notes describe the process that was used to build this Python microservice
 
 ## Install the pre-requisites
 
@@ -396,7 +400,7 @@ Logs provide visibility into the behavior of a running app. Logs are the stream 
 
 There are 5 basic steps as illustrated in Figure 1. below.
 
-![5 steps Red-Green-Refactor cycle of Test Driven Devlopment](./doc/images/tdd-red-green-refactoring-v2.jpeg)
+![5 steps Red-Green-Refactor cycle of Test Driven Devlopment](./doc/images/tdd-red-green-refactoring-v3.png)
 
 **_Figure 1. The 5 stages in the Red-Green-Refactor software development cycle_**
 
@@ -406,7 +410,7 @@ Common requests are new feature stories or issue/bug fixes.
 
 These are the 5 steps:
 
-1. Pick a request from your project management system [5]
+1. Pick a request from your project management system [1]
 
    1. Action it! by Read, understand the request
 
@@ -461,11 +465,9 @@ TIP: to get `flask-restplus` to [work, downgrade](https://github.com/noirbizarre
 Fabulous! You should by now be able to access the REST API by navigating to:
 [http://127.0.0.1:7878](http://127.0.0.1:7878)
 
-Next steps: add other REST endpoints -> that the NodeJS version has.
-
 ## Foot notes
 
-[5] Project management tool include:
+[1] Project management tool include:
 
 - Jira
 - Pivotal Tracker
@@ -475,9 +477,11 @@ Next steps: add other REST endpoints -> that the NodeJS version has.
 
 # Resources
 
+[Introducing the Red Hat Universal Base Image ](https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image) - blog by Scott McCarty
+
 [Python Testing with pytest: Simple, Rapid, Effective, and Scalable.](https://pragprog.com/book/bopytest/python-testing-with-pytest) Okken, Brian. Pragmatic Bookshelf.
 
-[pypi docs on flask-restplus 0.13.0](https://pypi.org/project/flask-restplus/)
+[docs on flask-restplus](https://pypi.org/project/flask-restplus/)
 
 # License
 
