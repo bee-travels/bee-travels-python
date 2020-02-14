@@ -28,6 +28,89 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 1. start the flask microservice run: `python src/main.py`
 1. browse to the swagger test harness by navigating to [http://127.0.0.1:7878](http://127.0.0.1:7878)
 
+## Introducing the RedHat Universal Base Image (UBI)
+
+At the core of containers there is a lighter weight Linux operating system. Most of us have used Ubuntu or Alpine as the base Operating system.
+
+Now there is a Enterprise Linux alternative from RedHat called the Universal Base Image (UBI).
+
+UBI is three things:
+
+1. A set of three base images (`ubi`, `ubi-minimal`, `ubi-init`)
+1. A set of language runtime images (`node.js`, `python`, etc.)
+1. A set of associated packages in a `YUM repository` which satisfy common application dependencies
+
+### Use the RedHat UBI to build a docker image, then run it locally
+
+Regard our [Dockerfile](./Dockerfile) and notice the new `FROM` directive is for the UBI version 8 ( core of RedHat 8)
+
+```yaml
+FROM registry.access.redhat.com/ubi8/ubi
+```
+
+Now let's build this docker image with the `RedHat UBI`.
+
+1. Make sure you are at the root of this application.
+1. Note your docker-hub username
+
+<details><summary><strong>How to find your docker hub credentials</strong></summary>
+
+> To download Docker desktop you must create a Docker hub account.
+
+> To find the username, you can click on at your Docker desktop icon (mac) toolbar
+
+![Docker Desktop Find your logged-in username](./doc/images/docker-desktop-get-username.png)
+
+</details>
+
+1. Build the docker image by running:
+
+```bash
+export DOCKERHUB_USERNAME=<your-dockerhub-username>
+docker build -t $DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1 .
+```
+
+<details><summary><strong>Expected output details</strong></summary>
+
+Here is a truncated snippet of the successful output you should see:
+
+```bash
+Sending build context to Docker daemon  69.63MB
+Step 1/10 : FROM registry.access.redhat.com/ubi8/ubi
+ ---> fd73e6738a95
+
+ ...
+
+Collecting flask (from -r requirements.txt (line 13))
+  Downloading https://files.pythonhosted.org/packages/9b/93/628509b8d5dc749656a9641f4caf13540e2cdec85276964ff8f43bbb1d3b/Flask-1.1.1-py2.py3-none-any.whl (94kB)
+
+ ...
+
+Successfully built 3b5631170697
+Successfully tagged <DOCKERHUB_USERNAME>/currencyexchange-py:v0.0.1
+```
+
+</details>
+
+Great! So, now lets run the image locally!
+
+```bash
+docker run -p 7878:7878 $DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1
+```
+
+At your command line run: `docker ps` and you should now confirm that the docker container for the currencyexchange microservice is up and running.
+
+![UBI Docker](./doc/images/UBI-docker-ps.jpeg)
+
+> Explore the microservice from your browser at
+> [http://127.0.0.1:7878](http://127.0.0.1:7878) for documentation about this API's endpoints and a `try-it-out` test harness to actually run the API calls.
+
+![expected browser swagger](./doc/images/expected-browser-swagger.png)
+
+# Development Notes
+
+These notes describe the process that was used to build this Python microservice
+
 ## Install the pre-requisites
 
 1. Python version 3.7.x or later
@@ -317,7 +400,7 @@ Logs provide visibility into the behavior of a running app. Logs are the stream 
 
 There are 5 basic steps as illustrated in Figure 1. below.
 
-![5 steps Red-Green-Refactor cycle of Test Driven Devlopment](./doc/images/tdd-red-green-refactoring-v2.jpeg)
+![5 steps Red-Green-Refactor cycle of Test Driven Devlopment](./doc/images/tdd-red-green-refactoring-v3.png)
 
 **_Figure 1. The 5 stages in the Red-Green-Refactor software development cycle_**
 
@@ -327,7 +410,7 @@ Common requests are new feature stories or issue/bug fixes.
 
 These are the 5 steps:
 
-1. Pick a request from your project management system [5]
+1. Pick a request from your project management system [1]
 
    1. Action it! by Read, understand the request
 
@@ -382,11 +465,9 @@ TIP: to get `flask-restplus` to [work, downgrade](https://github.com/noirbizarre
 Fabulous! You should by now be able to access the REST API by navigating to:
 [http://127.0.0.1:7878](http://127.0.0.1:7878)
 
-Next steps: add other REST endpoints -> that the NodeJS version has.
-
 ## Foot notes
 
-[5] Project management tool include:
+[1] Project management tool include:
 
 - Jira
 - Pivotal Tracker
@@ -396,9 +477,11 @@ Next steps: add other REST endpoints -> that the NodeJS version has.
 
 # Resources
 
+[Introducing the Red Hat Universal Base Image ](https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image) - blog by Scott McCarty
+
 [Python Testing with pytest: Simple, Rapid, Effective, and Scalable.](https://pragprog.com/book/bopytest/python-testing-with-pytest) Okken, Brian. Pragmatic Bookshelf.
 
-[pypi docs on flask-restplus 0.13.0](https://pypi.org/project/flask-restplus/)
+[docs on flask-restplus](https://pypi.org/project/flask-restplus/)
 
 # License
 
