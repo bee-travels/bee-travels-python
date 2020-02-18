@@ -1,10 +1,15 @@
 import os
 import csv
 
-# from errors.UserDefinedErrors import NotFoundError
-
-
-def readData():
+class NotFoundError(Exception):
+    def __init__(self, message):
+        self.message = message
+        
+class InvalidCountryCode(Exception):
+    def __init__(self, message):
+        self.message = message      
+        
+def read_data():
     """ for now we will hardcode this to read the ./data/countryCurrencyMetadata.csv """
     rows_ = []
     dir_path_ = os.path.dirname(os.path.realpath(__file__))
@@ -22,19 +27,24 @@ def readData():
     return rows_
 
 
-def getCurrencyNameAndCode(countryName):
-    data = readData()
+def get_currency_name_and_code(countryName):
+    data = read_data()
     for row in data:
         if row["country"].upper() == countryName.upper():
             return row
-    raise Exception("country {} does not exist".format(countryName))
+    raise NotFoundError(f"country {countryName} does not exist")
 
 
-def getCountryAndCurrencyCode(currencyCode):
-    data = readData()
+def get_country_and_currency_code(currencyCode):
+    """ note pythonic way - use list comprehensions """
+    data = read_data()
     if len(currencyCode.strip()) != 3:
-        raise Exception("currencyCode should only be 3 characters long")
+        raise InvalidCountryCode(f"currencyCode {currencyCode} should only be 3 characters long")
     matches = [v for v in data if v["currencyCode"].upper() == currencyCode.upper()]
+    
+    if len(matches) == 0: 
+        raise NotFoundError(f"currencyCode  {currencyCode} not found in our datafile")
+    
     return {
         "currencyCode": matches[0]["currencyCode"],
         "currencyName": matches[0]["currencyName"],

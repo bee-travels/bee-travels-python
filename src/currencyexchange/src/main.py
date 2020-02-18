@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_restplus import Api, Resource, fields
-from services.serviceHandler import convertCurrency, getCurrencyExchangeRates
+from services.serviceHandler import convert_currency, get_currency_exchange_rates
 from services.countryCurrencyCodeHandler import (
-    getCountryAndCurrencyCode,
-    getCurrencyNameAndCode,
+    get_country_and_currency_code,
+    get_currency_name_and_code,
 )
 
 app = Flask(__name__)
@@ -36,7 +36,7 @@ class CurrencyList(Resource):
     """Shows a list of currency ex rates"""
 
     def get(self):
-        return getCurrencyExchangeRates()
+        return get_currency_exchange_rates()
 
 
 #  /currency/{currencyFromAmount}/{currencyFromCode}/{currencyToCode}
@@ -51,7 +51,7 @@ class CurrencyList(Resource):
 class Currency(Resource):
     def get(self, currencyFromAmount, currencyFromCode, currencyToCode):
 
-        result = convertCurrency(
+        result = convert_currency(
             float(currencyFromAmount), currencyFromCode, currencyToCode
         )
         return {"result": result}
@@ -65,9 +65,9 @@ class Search(Resource):
     @currencyNS.marshal_with(currencyNameOrCurrencyCode, code=201)
     def post(self):
         if "currencyCode" in api.payload:
-            return getCountryAndCurrencyCode(api.payload["currencyCode"])
+            return get_country_and_currency_code(api.payload["currencyCode"])
         elif "country" in api.payload:
-            return getCurrencyNameAndCode(api.payload["country"])
+            return get_currency_name_and_code(api.payload["country"])
         else:
             api.abort(400, "Pass in either the currencyCode or country name")
 

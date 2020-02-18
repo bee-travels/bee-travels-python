@@ -12,28 +12,28 @@ HEADERS = {
 }
 
 
-class NotFoundException(Exception):
+class ExtHTTPRestCallError(Exception):
     pass
 
 
-def __callExtRestEndPoint(url):
+def __call_ext_rest_endpoint(url):
     request = Request(url)
     try:
         response = urlopen(request)
     except HTTPError as httpex:
-        raise NotFoundException(httpex.reason)
+        raise ExtHTTPRestCallError(httpex.reason)
 
     data = json.loads(response.read())
     return data
 
 
-def getCurrencyExchangeRates(timeIndicator="latest"):
+def get_currency_exchange_rates(timeIndicator="latest"):
     currencyUrl = "{}{}".format(BASE_URL_ENDPOINT, timeIndicator)
-    data = __callExtRestEndPoint(currencyUrl)
+    data = __call_ext_rest_endpoint(currencyUrl)
     return data
 
 
-def getCurrencyExchangeRate(
+def get_currency_exchange_rate(
     countryCurrencyCode, baseCode="EUR", timeIndicator="latest"
 ):
 
@@ -41,15 +41,15 @@ def getCurrencyExchangeRate(
     baseCode = baseCode.upper()
 
     currencyUrl = "{}{}?base={}".format(BASE_URL_ENDPOINT, timeIndicator, baseCode)
-    data = __callExtRestEndPoint(currencyUrl)
+    data = __call_ext_rest_endpoint(currencyUrl)
 
     return data["rates"][countryCurrencyCode]
 
 
-def convertCurrency(
+def convert_currency(
     fromValue, fromCurrencyCode, toCurrencyCode, historicalDate="latest"
 ):
-    exchangeRate = getCurrencyExchangeRate(
+    exchangeRate = get_currency_exchange_rate(
         toCurrencyCode, fromCurrencyCode, historicalDate
     )
 
