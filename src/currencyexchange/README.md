@@ -417,6 +417,56 @@ Here it is in action:
 
 ![video link to renaming symbols]()
 
+<details><summary><strong>
+interested in learning more about recommneded Python code styling</strong></summary>
+
+### Function and Variable Names
+
+> `Function names` should be `lowercase`, with `words separated by underscores as necessary to improve readability`.
+
+> `Variable names` follow the same convention as function names.
+
+### Package and Module Names
+
+> `Modules` should have short, `all-lowercase names`,
+> `underscores` are `Ok` in the module name if it improves `readability`.
+
+> `Python packages` should also have short, `all-lowercase names`
+> underscores here are discouraged!
+
+### Class Names
+
+> Use the CapWords /CamelCase convention
+
+### Type Variable Names
+
+Short CapWords: T, AnyStr, Num. It is recommended to add `suffixes` \_co or \_contra to the variables used to declare `covariant` or `contravariant` behavior correspondingly:
+
+```python
+from typing import TypeVar
+
+VT_co = TypeVar('VT_co', covariant=True)
+KT_contra = TypeVar('KT_contra', contravariant=True)
+```
+
+In case you were wondering what on earth the terms covariant and contravariant mean, so did I and I googled this [fabulous blog post about it here](https://blog.magrathealabs.com/pythons-covariance-and-contravariance-b422c63f57ac).
+
+### \_single_leading_underscore:
+
+> weak `internal use` indicator. E.g. from M import \* does not import objects whose names `start` with an underscore.
+
+### single*trailing_underscore*:
+
+> used by convention to `avoid conflicts` with Python `keywords`, e.g.
+
+```python
+Tkinter.Toplevel(master, `class_`='ClassName')
+```
+
+Want to learn more about styling your code, check out the 'Pet Peeves' page on the official [PEP 8 website](https://www.python.org/dev/peps/pep-0008/#pet-peeves)
+
+</details>
+
 ## Start Test Driven Development
 
 ### Red-Green-Refactoring.
