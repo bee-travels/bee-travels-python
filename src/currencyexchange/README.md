@@ -17,7 +17,8 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 1. change to the repo root dir `cd bee-travels-python/`
 1. checkout development branch `git checkout development`
 1. change to the root dir for currencyexchange `cd src/currencyexchange/`
-1. ensure `pipenv` will be local to your dir structure 
+1. ensure `pipenv` will be local to your dir structure
+
 ```bash
 
 export PIPENV_VENV_IN_PROJECT=1
@@ -403,17 +404,18 @@ Logs provide visibility into the behavior of a running app. Logs are the stream 
 ## Refactoring
 
 ### D.R.Y.
-A common software anti-pattern is the problem `Don't Repeat Yorself` aka `cut and paste inheitence` - exact portions of logic are replicated all over the place.  One way to fix this is to move these common exact lines of repeated code into a function, so that it can be re-used.  This is also known as `method extraction` and is one of the commonly practiced ways to improve and refactor your code.
+
+A common software anti-pattern is the problem `Don't Repeat Yorself` aka `cut and paste inheitence` - exact portions of logic are replicated all over the place. One way to fix this is to move these common exact lines of repeated code into a function, so that it can be re-used. This is also known as `method extraction` and is one of the commonly practiced ways to improve and refactor your code.
 
 ### Renaming of files/modules, methods and classes.
-Another one is `rename` - this is usesful say you want to change a file name - which is part of the python namespace `module` name, so if you change a file name, you will need to update all references to that module all over your code base - frustrating yes, hair pulling absolutely - fear not, enter refactoring tooling!  
+
+Another one is `rename` - this is usesful say you want to change a file name - which is part of the python namespace `module` name, so if you change a file name, you will need to update all references to that module all over your code base - frustrating yes, hair pulling absolutely - fear not, enter refactoring tooling!
 
 On the command line we have a nifty python package to add to your tool called `rope` which we have included in this project that will rename references in your code.
 
 Here it is in action:
 
 ![video link to renaming symbols]()
-
 
 ## Start Test Driven Development
 
@@ -504,17 +506,11 @@ Fabulous! You should by now be able to access the REST API by navigating to:
 
 [docs on flask-restplus](https://pypi.org/project/flask-restplus/)
 
-
 ### PEP 8 -- Style Guide for Python Code
+
 [PEP Python Standards](https://www.python.org/dev/peps/)
 
-
 [E203](https://www.flake8rules.com/rules/E203.html) & ['Pet Peeves'](https://www.python.org/dev/peps/pep-0008/#pet-peeves) no whitespace before colons(:)
-
-
-
-
-
 
 # License
 
