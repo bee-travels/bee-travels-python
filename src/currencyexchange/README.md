@@ -107,6 +107,200 @@ At your command line run: `docker ps` and you should now confirm that the docker
 
 ![expected browser swagger](./doc/images/expected-browser-swagger.png)
 
+
+### Deploy to IBM Cloud
+
+1. To allow changes to the this microservice, create a repo on [Docker Cloud](https://cloud.docker.com/) where you can push the newly modified container. 
+
+> NOTE: If a new repo is used for the Docker containers, the container `image` will need to be modified to the name of the new repo used in [./deploy/currencyexchange-deploy.yaml](./deploy/currencyexchange-py-deploy.yaml).
+
+```bash
+# build docker image
+export DOCKERHUB_USERNAME=<your-dockerhub-username>
+
+docker build -t $DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1 .
+
+docker login
+
+# push image to docker hub
+docker push $DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1
+
+```
+<details><summary><strong>What a successful push to docker hub should look like</strong></summary>
+
+```bash
+The push refers to repository [docker.io/grantsteinfeldibm/currencyexchange-py]
+693f7ba0eeed: Pushed 
+225cfc6f0260: Pushed 
+2ddc888e45c8: Pushed 
+1aac3cbf59e3: Pushed 
+85f69e555a1b: Pushed 
+1295eae54c9d: Pushed 
+v0.0.1: digest: sha256:2aa41155a8bd44bb2558cb990ed4d5f455968ef88697463456f249a35654841d size: 1574
+```
+</details>
+
+
+2. Provision an [IBM RedHat OpenShift 4 Service](https://cloud.ibm.com/kubernetes/catalog/openshiftcluster)
+and follow the set of instructions for creating a Container and Cluster.
+
+### There are 2 ways to deploy the image to OpenShift.
+
+1. Using the Developer Tools CLI
+2. OpenShift web console
+
+
+
+#### Step 1) Using the [Developer Tools CLI](https://www.ibm.com/cloud/cli):
+
+Login to the IBM Cloud 
+> NOTE use `--sso` if you have a single sign on account, or delete for username/password login
+
+```bash
+ibmcloud login --sso
+```
+Login to your cluster
+
+![2 ways to connect to OpenShift cluster](doc/images/OpenShift-connection-to-cluster-2-ways.png)
+
+click the Actions/Connect via CLI ( annotated with a number(1) above ) and follow the instructions:
+
+use `oc login ... ` to login to your cluster, for example 
+```sh
+oc login --token=X8bjO-ROAhGUx8S9pvge6pMdLQzrFysuG9SSgSI6hyg --server=https://c100-e.us-east.containers.cloud.ibm.com:31102
+```
+
+create a new project
+
+```bash
+oc new-project currencyexchange-py
+```
+
+you should be able to confirm this by typing:
+
+```bash
+oc project
+```
+and see
+
+![confirm project is setup](doc/images/OpenShift-project-confirm-cli.png)
+
+
+
+
+next add a new application
+
+```bash
+oc new-app $DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1
+```
+
+Great!  Now you should see
+
+![new application created with your image](doc/images/OpenShift-oc-new-application-created.png)
+
+Note the yellow highlight section confirms that the RedHat UBI is the base image in your docker deployment.
+
+Almost there!  You will need to expose the microservice to the outside world by executing
+
+```bash
+oc expose svc/currencyexchange-py
+
+#expected output
+# route.route.openshift.io/currencyexchange-py exposed
+
+#get the external URL to access the microservice
+oc status
+
+```
+![getting the external url](doc/images/OpenShift-get-external-url-cli.png)
+
+So copy and paste the url indicated in yellow highlight above into your favorite web browser and voila!  You should see:
+
+![OpenShift url shows swagger and exchange rate conversion executes as expected](doc/images/OpenShift-url-navigate-to-shows-swagger-success.png)
+
+
+Looking at the OpenShift Web console we can now see our microservice all setup and running nicely.
+
+![OpenShift Web console up and running](doc/images/OpenShift-webconsole-after-CLI-image-deploy.png)
+
+
+#### Step 2) Using the OpenShift web console
+
+After provisioning your OpenShift cluster, click on the blue `OpenShift web console` button indicated by the number two(2) in the image below.
+
+![2 ways to connect to OpenShift cluster](doc/images/OpenShift-connection-to-cluster-2-ways.png)
+
+
+You should now see the web console.
+
+Note that there are 2 ***perspectives*** of the web console, the `administrator` and the `developer`.  Switch to the developer view by clicking on the Administrator (default) option and selecting the Developer option indicate by the number two (2) in the image below 
+
+![OpenShift web console switch to the developer perspective](doc/images/OpenShift-GUI-change-to-developer-perspective.png)
+
+The ***Developer*** perspective in the web console provides you the following options from the Add view to create applications and associated services and deploy them on OpenShift Container Platform:
+
+There are various options to choose from here, we will choose the `Container Image` where you will use the existing image you previously built and pushed to DockerHub and deploy it on your OpenShift Container Platform.
+
+![OpenShift web console create app with container image](doc/images/OpenShift-GUI-dev-perspective-app-creation-choices-tile-highlighted-container-image.png)
+
+<details><summary><strong>Learn more about application creation options as an OpenShift Developer</strong></summary>
+
+
+1. From Git: Use this option to import an existing codebase in a Git repository to create, build, and deploy an application on OpenShift Container Platform.
+
+1. Container Image: Use existing images from an image stream or registry to deploy it on to OpenShift Container Platform.
+
+1. From Catalog: Explore the Developer Catalog to select the required applications, services, or source to image builders and add it to your project.
+
+1. From Dockerfile: Import a dockerfile from your Git repository to build and deploy an application.
+
+1. YAML: Use the editor to add YAML or JSON definitions to create and modify resources.
+
+To learn more check out the [OpenShift developer documentation](https://docs.openshift.com/container-platform/4.3/applications/application_life_cycle_management/odc-creating-applications-using-developer-perspective.html#odc-creating-applications-using-developer-perspective)
+</details>
+
+Fill out the image name text box on your DockerHub repository.  It should be:
+
+`$DOCKERHUB_USERNAME/currencyexchange-py:v0.0.1`
+
+where `$DOCKERHUB_USERNAME` is you Docker hub username.
+
+Click on the `search icon`  (magnifying glass) to the left of the text box.
+
+It should fetch the image metadata from DockerHub and create a nice form.
+
+![OpenShift Container image form](doc/images/OpenShift-container-image-after-search-details-of-image.png)
+
+Click on the blue create button indicated with the number one(1) above.
+
+Great!  You should now see a nice topology and summary of the application you just created:
+
+![OpenShift](doc/images/OpenShift-GUI-container-image-created-successfully-maybe.png)
+
+You should now be able to click on the public IP that was by default created for you. See and click on the route, e.g.
+
+`http://currencyexchange-py-currencyexchange-py.gsteinfeld-ubi-webconso-f2c6cdc6801be85fd188b09d006f13e3-0000.us-east.containers.appdomain.cloud/`
+
+You should now see Python flask swagger input screen:
+
+
+Congratulations!  You have now successfully created an application from a container image.
+
+
+### Trouble shooting ( maybe beta issues? )
+If your application is not running look at the `Events` tab:
+
+![OpenShift event log](doc/images/OpenShift-GUI-Container-Image-Events-errors.png)
+
+Here we see an `Invalid Image Name` - corrective action would be ***tbd***
+
+
+
+
+
+
+
+
 # Development Notes
 
 These notes describe the process that was used to build this Python microservice
