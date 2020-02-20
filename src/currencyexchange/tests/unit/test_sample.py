@@ -1,5 +1,5 @@
-def plusOne(x):
+def plus_one(x):
     return x + 1
 
 def test_simple():
-    assert plusOne(7) == 8
+    assert plus_one(7) == 8
