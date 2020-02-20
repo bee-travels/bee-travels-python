@@ -10,7 +10,7 @@ app = Flask(__name__)
 api = Api(
     app,
     version="1.0.0",
-    title="Bee Travel Currency Data Service",
+    title="Bee Travels Currency Data Service",
     description="This is a microservice that handles currency exchange rate data for Bee Travels",
 )
 
@@ -20,8 +20,8 @@ currencyNS = api.namespace(
 )
 
 
-currencyNameOrCurrencyCode = api.model(
-    "currencyNameOrCurrencyCode",
+currencyCodeCountryModel = api.model(
+    "currencyCodeCountryModel",
     {
         "currencyCode": fields.String(
             required=False, description="3 letter currency code"
@@ -37,10 +37,6 @@ class CurrencyList(Resource):
 
     def get(self):
         return get_currency_exchange_rates()
-
-
-#  /currency/{currencyFromAmount}/{currencyFromCode}/{currencyToCode}
-#  /currency/10/EUR/USD
 
 
 @currencyNS.route("/<int:currencyFromAmount>/<currencyFromCode>/<currencyToCode>")
@@ -61,8 +57,8 @@ class Currency(Resource):
 @currencyNS.response(404, "Currency Code not found")
 class Search(Resource):
     @currencyNS.doc("search_currency_meta")
-    @currencyNS.expect(currencyNameOrCurrencyCode)
-    @currencyNS.marshal_with(currencyNameOrCurrencyCode, code=201)
+    @currencyNS.expect(currencyCodeCountryModel)
+    @currencyNS.marshal_with(currencyCodeCountryModel, code=201)
     def post(self):
         if "currencyCode" in api.payload:
             return get_country_and_currency_code(api.payload["currencyCode"])
