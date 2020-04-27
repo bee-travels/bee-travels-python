@@ -6,10 +6,12 @@ from src.services.service_handler import convert_currency, get_currency_exchange
 def test_convert_currency():
     """ this test must mostly fail, unless exchange rates for the day are exact
     as of the day (Sunday Feb 16th 2020) when this test did work or the internet or external service was/is unavailable!"""
-    countryCurrencyCode = "USD"
+    currencyCodeFrom = "USD"
+    originalCurrencyAmount = 10
+    currencyCodeTo = "CAD"
     expected = 13.247555801999999
 
-    actual = convert_currency(10, countryCurrencyCode, "CAD")
+    actual = convert_currency(originalCurrencyAmount, currencyCodeFrom, currencyCodeTo)
     assert actual == expected
 
 
