@@ -3,7 +3,7 @@ from urllib.error import HTTPError  # noqa: 401
 import json
 import logging
 import os
-import pdb
+#import pdb
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +20,7 @@ class NotFoundException(Exception):
 
 def __callExtRestEndPoint(url):
     logger.warn(url)
+
     request = Request(url)
     try:
         response = urlopen(request)
@@ -51,7 +52,11 @@ def getCurrencyExchangeRate(countryCurrencyCode, baseCode="EUR", timeIndicator="
     return data["rates"][countryCurrencyCode]
 
 def passAlong(countryCurrencyCode, baseCode, timeIndicator="latest"):
-    data = getCurrencyExchangeRates2(countryCurrencyCode, baseCode, timeIndicator)
+    countryCurrencyCode = countryCurrencyCode.upper()
+    baseCode = baseCode.upper()
+    currencyUrl = "{}{}?base={}&countryCurrencyCode={}".format(BASE_URL_ENDPOINT, timeIndicator, baseCode,countryCurrencyCode)
+    logger.warn(currencyUrl)
+    data = __callExtRestEndPoint(currencyUrl)
     return data
 
 def convertCurrency(
