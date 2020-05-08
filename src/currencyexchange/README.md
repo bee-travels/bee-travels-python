@@ -4,10 +4,17 @@ This is a python3 Currency Exchange Microservice, that was developed by using a 
 
 ## SUPERMARINE BUILD
 set env var
+```bash
 
-BASE_URL_ENDPOINT="http://localhost:7777/"
+# A
+export BASE_URL_ENDPOINT="http://localhost:7878/Currency/"
+export DEFAULT_PORT=8080
 
-BASE_URL_ENDPOINT="https://api.exchangeratesapi.io/"
+# B
+export BASE_URL_ENDPOINT="https://api.exchangeratesapi.io/"
+
+export DEFAULT_PORT=7878
+
 
 
 
