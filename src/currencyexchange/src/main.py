@@ -49,6 +49,9 @@ class CurrencyList(Resource):
 
 @currencyNS.route("/latest")
 @currencyNS.param("base", "base currency")
+@currencyNS.param("countryCurrencyCode", "currency code")
+
+
 class Supermarine(Resource):
     """callback to itself if env var BASE_URL_ENDPOINT is itself"""
 
@@ -56,11 +59,13 @@ class Supermarine(Resource):
         #pdb.set_trace()
         parser = reqparse.RequestParser()
         parser.add_argument('base', required=True, help="base currency code required", location='args')
+        parser.add_argument('countryCurrencyCode', required=True, help="currency code required", location='args')
+        
         args = parser.parse_args()
         logger.warning(args)
         logger.warning("ENDPOINT: {}".format(request.base_url))
         #pdb.set_trace()
-        result = passAlong(args['base'].upper())
+        result = passAlong(args['countryCurrencyCode'].upper(), args['base'].upper())
         return result
 
 

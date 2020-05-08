@@ -3,6 +3,7 @@ from urllib.error import HTTPError  # noqa: 401
 import json
 import logging
 import os
+import pdb
 
 logger = logging.getLogger(__name__)
 
@@ -37,17 +38,20 @@ def getCurrencyExchangeRates(timeIndicator="latest"):
 def passAlong(baseCode):
     return getCurrencyExchangeRate('USD', baseCode=baseCode)
 
-def getCurrencyExchangeRate(
-    countryCurrencyCode, baseCode="EUR", timeIndicator="latest"
-):
-
+def getCurrencyExchangeRates2(countryCurrencyCode, baseCode='EUR', timeIndicator='latest'):
     countryCurrencyCode = countryCurrencyCode.upper()
     baseCode = baseCode.upper()
 
     currencyUrl = "{}{}?base={}".format(BASE_URL_ENDPOINT, timeIndicator, baseCode)
-    logger.warn(currencyUrl)
+    #logger.warn(currencyUrl)
     data = __callExtRestEndPoint(currencyUrl)
+    return data
 
+def getCurrencyExchangeRate(
+    countryCurrencyCode, baseCode="EUR", timeIndicator="latest"
+):
+
+    data = getCurrencyExchangeRates2(countryCurrencyCode, baseCode, timeIndicator)    
     return data["rates"][countryCurrencyCode]
 
 
