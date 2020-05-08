@@ -35,8 +35,8 @@ def getCurrencyExchangeRates(timeIndicator="latest"):
     data = __callExtRestEndPoint(currencyUrl)
     return data
 
-def passAlong(baseCode):
-    return getCurrencyExchangeRate('USD', baseCode=baseCode)
+def passAlong(countryCurrencyCode, baseCode):
+    return getCurrencyExchangeRate2(countryCurrencyCode, baseCode=baseCode)
 
 def getCurrencyExchangeRates2(countryCurrencyCode, baseCode='EUR', timeIndicator='latest'):
     countryCurrencyCode = countryCurrencyCode.upper()
