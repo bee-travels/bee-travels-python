@@ -2,6 +2,15 @@
 
 This is a python3 Currency Exchange Microservice, that was developed by using a Test Driven Development (TDD) approach.
 
+## SUPERMARINE BUILD
+set env var
+
+BASE_URL_ENDPOINT="http://localhost:7777/"
+
+BASE_URL_ENDPOINT="https://api.exchangeratesapi.io/"
+
+
+
 ## Included components
 
 1. Pipenv

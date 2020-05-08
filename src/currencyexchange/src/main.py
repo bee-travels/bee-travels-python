@@ -1,10 +1,15 @@
 from flask import Flask
+from flask import request
 from flask_restplus import Api, Resource, fields
-from services.serviceHandler import convertCurrency, getCurrencyExchangeRates
+from flask_restplus import reqparse
+from services.serviceHandler import convertCurrency, getCurrencyExchangeRates, passAlong
 from services.countryCurrencyCodeHandler import (
     getCountryAndCurrencyCode,
     getCurrencyNameAndCode,
 )
+#import pdb
+import logging
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 api = Api(
@@ -37,6 +42,29 @@ class CurrencyList(Resource):
 
     def get(self):
         return getCurrencyExchangeRates()
+
+#/latest?base=USD
+# 
+
+@currencyNS.route("/latest")
+@currencyNS.param("base", "base currency")
+class Supermarine(Resource):
+    """callback to itself if env var BASE_URL_ENDPOINT is itself"""
+
+    def get(self):
+        #pdb.set_trace()
+        parser = reqparse.RequestParser()
+        parser.add_argument('base', required=True, help="base currency code required", location='args')
+        args = parser.parse_args()
+        logger.warning(args)
+        logger.warning("ENDPOINT: {}".format(request.base_url))
+        #pdb.set_trace()
+        result = passAlong(args['base'].upper())
+        return result
+
+
+
+
 
 
 #  /currency/{currencyFromAmount}/{currencyFromCode}/{currencyToCode}

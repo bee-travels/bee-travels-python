@@ -2,10 +2,11 @@ from urllib.request import urlopen, Request  # noqa: 401
 from urllib.error import HTTPError  # noqa: 401
 import json
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
-BASE_URL_ENDPOINT = "https://api.exchangeratesapi.io/"
+BASE_URL_ENDPOINT = os.environ.get("BASE_URL_ENDPOINT")
 HEADERS = {
     "Accept": "application/json",
     "Content-Type": "application/json",
@@ -17,6 +18,7 @@ class NotFoundException(Exception):
 
 
 def __callExtRestEndPoint(url):
+    logger.warn(url)
     request = Request(url)
     try:
         response = urlopen(request)
@@ -32,6 +34,8 @@ def getCurrencyExchangeRates(timeIndicator="latest"):
     data = __callExtRestEndPoint(currencyUrl)
     return data
 
+def passAlong(baseCode):
+    return getCurrencyExchangeRate('USD', baseCode=baseCode)
 
 def getCurrencyExchangeRate(
     countryCurrencyCode, baseCode="EUR", timeIndicator="latest"
@@ -41,6 +45,7 @@ def getCurrencyExchangeRate(
     baseCode = baseCode.upper()
 
     currencyUrl = "{}{}?base={}".format(BASE_URL_ENDPOINT, timeIndicator, baseCode)
+    logger.warn(currencyUrl)
     data = __callExtRestEndPoint(currencyUrl)
 
     return data["rates"][countryCurrencyCode]
