@@ -7,6 +7,7 @@ from services.countryCurrencyCodeHandler import (
     getCountryAndCurrencyCode,
     getCurrencyNameAndCode,
 )
+import os
 #import pdb
 import logging
 logger = logging.getLogger(__name__)
@@ -101,4 +102,5 @@ class Search(Resource):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=7878)
+    port = os.environ.get("DEFAULT_PORT")
+    app.run(host="0.0.0.0", debug=True, port=int(port))
