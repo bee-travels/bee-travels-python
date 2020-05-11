@@ -15,7 +15,9 @@ export BASE_URL_ENDPOINT="https://api.exchangeratesapi.io/"
 
 export DEFAULT_PORT=7878
 
+```
 
+pipenv lock -r > requirements.txt
 
 
 ## Included components
