@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-a-service
+  labels:
+    app: currency-a
+spec:
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: currency-a
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: currency-a-deployment
+  labels:
+    app: currency-a
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: currency-a
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - image: ykoyfman/supermarine
+          imagePullPolicy: Always
+          name: currency-a
+          env:
+            - name: BASE_URL_ENDPOINT
+              value: "http://currency-b-service:7878/Currency/"
+            - name: DEFAULT_PORT
+              value: "8080"
+          ports:
+            - containerPort: 8080

@@ -1,0 +1,41 @@
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: currency-b-service
+    labels:
+      app: currency-b
+  spec:
+    ports:
+      - port: 7878
+        name: http
+    selector:
+      app: currency-b
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: currency-b-deployment
+  labels:
+    app: currency-b
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: currency-b
+      annotations:
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - image: ykoyfman/supermarine
+          imagePullPolicy: Always
+          name: currency-b
+          env:
+            - name: BASE_URL_ENDPOINT
+              value: "https://api.exchangeratesapi.io/"
+            - name: DEFAULT_PORT
+              value: "7878"
+          ports:
+            - containerPort: 7878
