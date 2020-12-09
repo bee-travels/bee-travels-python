@@ -1,6 +1,7 @@
 from app.errors import illegal_date, item_not_found
 import os
 import json
+import copy
 from datetime import datetime, timedelta
 
 HOTELS_PATH = os.path.join(os.getcwd(), "data/hotel-data.json")
@@ -49,7 +50,7 @@ def get_hotels(country, city, filters, context):
         )
 
     context.start("getHotelDataFromLocal")
-    metadata = get_hotel_data()
+    metadata = copy.deepcopy(get_hotel_data())
     context.stop()
 
     hotels_data = list(
